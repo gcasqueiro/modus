@@ -524,7 +524,8 @@ hr {
 .gc-home-hero__img {
     display: block;
     width: 100%;
-    height: clamp(480px, 78vh, 920px);
+    height: 100vh;
+    height: 100dvh; /* dynamic viewport — accounts for mobile browser chrome */
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -735,7 +736,8 @@ hr {
 
 .gc-post-feature__img {
     width: 100%;
-    height: clamp(320px, 50vh, 560px);
+    height: 100vh;
+    height: 100dvh;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -818,7 +820,8 @@ hr {
 
 .gc-page-hero__img {
     width: 100%;
-    height: clamp(320px, 50vh, 560px);
+    height: 100vh;
+    height: 100dvh;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -1313,15 +1316,6 @@ hr {
     .gc-card-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
-    }
-
-    .gc-home-hero__img {
-        height: clamp(280px, 52vh, 520px);
-    }
-
-    .gc-post-feature__img,
-    .gc-page-hero__img {
-        height: clamp(240px, 40vh, 420px);
     }
 
     .gc-post-header,
