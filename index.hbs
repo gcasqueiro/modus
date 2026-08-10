@@ -1,5 +1,8 @@
 {{!< default}}
 
+{{!-- Transparent header over the homepage hero (Edition-style). --}}
+{{#contentFor "body_class"}}{{#if @custom.hero_image_light}} has-home-hero is-head-transparent{{else}}{{#if @site.cover_image}} has-home-hero is-head-transparent{{/if}}{{/if}}{{/contentFor}}
+
 {{#is "home"}}
     {{!-- Homepage hero: custom light/dark images, or publication cover. --}}
     {{#if @custom.hero_image_light}}

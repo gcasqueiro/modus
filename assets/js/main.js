@@ -159,6 +159,38 @@
         });
     }
 
+    /* Transparent header: solid + normal colours after scrolling past the hero */
+    function initTransparentHeader() {
+        if (!document.body.classList.contains('is-head-transparent')) return;
+
+        var header = document.querySelector('.gc-header');
+        var hero = document.querySelector('.gc-home-hero');
+        if (!header || !hero) return;
+
+        var ticking = false;
+
+        function update() {
+            var threshold = Math.max(hero.offsetHeight - header.offsetHeight, 0);
+            if (window.scrollY > threshold) {
+                header.classList.add('is-scrolled');
+            } else {
+                header.classList.remove('is-scrolled');
+            }
+            ticking = false;
+        }
+
+        function onScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(update);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+    }
+
     function ready(fn) {
         if (document.readyState !== 'loading') {
             fn();
@@ -172,5 +204,6 @@
         initSystemSync();
         initParallax();
         initLoadMore();
+        initTransparentHeader();
     });
 })();
