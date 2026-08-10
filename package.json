@@ -66,6 +66,10 @@
         "default": false,
         "group": "homepage"
       },
+      "light_accent_color": {
+        "type": "color",
+        "default": "#2f6df6"
+      },
       "dark_accent_color": {
         "type": "color",
         "default": "#5b8bff"

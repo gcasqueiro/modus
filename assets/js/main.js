@@ -1,4 +1,4 @@
-/* Modus — theme toggle, scroll-zoom, load-more (no dependencies) */
+/* Modus — theme toggle, scroll-zoom, load-more, header (no dependencies) */
 (function () {
     'use strict';
 
@@ -159,18 +159,21 @@
         });
     }
 
-    /* Transparent header: solid + normal colours after scrolling past the hero */
+    /* Site-wide transparent header: solid after scrolling past top image (or a small offset). */
     function initTransparentHeader() {
         if (!document.body.classList.contains('is-head-transparent')) return;
 
         var header = document.querySelector('.gc-header');
-        var hero = document.querySelector('.gc-home-hero');
-        if (!header || !hero) return;
+        if (!header) return;
 
+        var topImage = document.querySelector('.gc-home-hero, .gc-post-feature, .gc-page-hero');
         var ticking = false;
 
         function update() {
-            var threshold = Math.max(hero.offsetHeight - header.offsetHeight, 0);
+            var threshold = 24;
+            if (topImage) {
+                threshold = Math.max(topImage.offsetHeight - header.offsetHeight, 24);
+            }
             if (window.scrollY > threshold) {
                 header.classList.add('is-scrolled');
             } else {
@@ -191,6 +194,36 @@
         update();
     }
 
+    /* Mobile hamburger menu */
+    function initMobileNav() {
+        var header = document.querySelector('.gc-header');
+        var toggle = document.getElementById('gc-nav-toggle');
+        var nav = document.getElementById('gc-nav');
+        if (!header || !toggle || !nav) return;
+
+        function setOpen(open) {
+            header.classList.toggle('is-nav-open', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        }
+
+        toggle.addEventListener('click', function () {
+            setOpen(!header.classList.contains('is-nav-open'));
+        });
+
+        nav.addEventListener('click', function (e) {
+            if (e.target.closest('a')) setOpen(false);
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') setOpen(false);
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.matchMedia('(min-width: 641px)').matches) setOpen(false);
+        });
+    }
+
     function ready(fn) {
         if (document.readyState !== 'loading') {
             fn();
@@ -205,5 +238,6 @@
         initParallax();
         initLoadMore();
         initTransparentHeader();
+        initMobileNav();
     });
 })();

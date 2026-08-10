@@ -1,6 +1,7 @@
 {{!< default}}
 
 {{#post}}
+{{#contentFor "body_class"}}{{#if feature_image}} has-top-image{{/if}}{{/contentFor}}
 <article class="gc-post {{post_class}}">
 
     {{#if feature_image}}

@@ -49,7 +49,7 @@
     --gc-text-faint: #868d96;
     --gc-border: #e6e8eb;
     --gc-border-strong: #d4d8dd;
-    --gc-accent: var(--ghost-accent-color, #2f6df6);
+    --gc-accent: var(--gc-accent-light, var(--ghost-accent-color, #2f6df6));
     --gc-accent-hover: color-mix(in srgb, var(--gc-accent) 82%, #000);
     --gc-code-bg: #f2f4f7;
     --gc-code-text: #1a1d21;
@@ -288,9 +288,9 @@ hr {
     gap: 14px;
 }
 
-/* Edition-style transparent header over the homepage hero */
+/* Site-wide transparent header (Edition-style), solid after scroll */
 .is-head-transparent .gc-header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -298,57 +298,66 @@ hr {
     border-bottom-color: transparent;
 }
 
-.is-head-transparent .gc-logo,
-.is-head-transparent .gc-logo__text {
+/* Pages without a top image: keep a little offset so content clears the bar */
+.is-head-transparent:not(.has-top-image) .gc-main {
+    padding-top: var(--gc-header-height);
+}
+
+/* Light nav text only when sitting over a hero / feature image */
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-logo,
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-logo__text {
     color: #fff;
 }
 
-.is-head-transparent .gc-logo:hover,
-.is-head-transparent .gc-logo:hover .gc-logo__text {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-logo:hover,
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-logo:hover .gc-logo__text {
     color: #fff;
 }
 
-.is-head-transparent .gc-nav__link {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav__link {
     color: rgba(255, 255, 255, 0.88);
 }
 
-.is-head-transparent .gc-nav__link:hover {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav__link:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.12);
 }
 
-.is-head-transparent .gc-nav__item--current .gc-nav__link {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav__item--current .gc-nav__link {
     color: #fff;
 }
 
-.is-head-transparent .gc-social {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-social {
     color: rgba(255, 255, 255, 0.85);
 }
 
-.is-head-transparent .gc-social:hover {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-social:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.12);
 }
 
-.is-head-transparent .gc-toggle__icon--sun {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-toggle__icon--sun {
     color: #f5d76e;
 }
 
-.is-head-transparent .gc-toggle__icon--moon {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-toggle__icon--moon {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.is-head-transparent .gc-toggle__track {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-toggle__track {
     background: rgba(255, 255, 255, 0.35);
 }
 
-.is-head-transparent .gc-toggle__knob {
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-toggle__knob {
     background: #fff;
 }
 
-/* Solid header after scrolling past the hero (readable over page content) */
+.has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav-toggle__bar {
+    background: #fff;
+}
+
+/* Solid header after scrolling */
 .is-head-transparent .gc-header.is-scrolled {
-    position: fixed;
     background: var(--gc-header-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -356,52 +365,42 @@ hr {
     box-shadow: var(--gc-shadow-sm);
 }
 
-.is-head-transparent .gc-header.is-scrolled .gc-logo,
-.is-head-transparent .gc-header.is-scrolled .gc-logo__text {
-    color: var(--gc-text);
+/* Hamburger button (mobile menu) */
+.gc-nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--gc-radius);
+    background: transparent;
+    cursor: pointer;
 }
 
-.is-head-transparent .gc-header.is-scrolled .gc-logo:hover,
-.is-head-transparent .gc-header.is-scrolled .gc-logo:hover .gc-logo__text {
-    color: var(--gc-text);
+.gc-nav-toggle__bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--gc-text);
+    transition: transform 0.2s var(--gc-ease-smooth), opacity 0.2s var(--gc-ease-smooth);
 }
 
-.is-head-transparent .gc-header.is-scrolled .gc-nav__link {
-    color: var(--gc-text-muted);
+.gc-header.is-nav-open .gc-nav-toggle__bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
 }
 
-.is-head-transparent .gc-header.is-scrolled .gc-nav__link:hover {
-    color: var(--gc-text);
-    background: var(--gc-bg-subtle);
+.gc-header.is-nav-open .gc-nav-toggle__bar:nth-child(2) {
+    opacity: 0;
 }
 
-.is-head-transparent .gc-header.is-scrolled .gc-nav__item--current .gc-nav__link {
-    color: var(--gc-text);
-}
-
-.is-head-transparent .gc-header.is-scrolled .gc-social {
-    color: var(--gc-text-faint);
-}
-
-.is-head-transparent .gc-header.is-scrolled .gc-social:hover {
-    color: var(--gc-text);
-    background: var(--gc-bg-subtle);
-}
-
-.is-head-transparent .gc-header.is-scrolled .gc-toggle__icon--sun {
-    color: var(--gc-toggle-sun);
-}
-
-.is-head-transparent .gc-header.is-scrolled .gc-toggle__icon--moon {
-    color: var(--gc-toggle-moon);
-}
-
-.is-head-transparent .gc-header.is-scrolled .gc-toggle__track {
-    background: var(--gc-toggle-track);
-}
-
-.is-head-transparent .gc-header.is-scrolled .gc-toggle__knob {
-    background: var(--gc-toggle-knob);
+.gc-header.is-nav-open .gc-nav-toggle__bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 /* --------------------------------------------------------------------------
@@ -551,51 +550,83 @@ hr {
 @media (max-width: 640px) {
     :root {
         --gc-content-width: 100%;
-        --gc-header-height: auto;
     }
 
     .gc-header__inner {
-        flex-wrap: wrap;
-        gap: 12px;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 10px;
         padding-block: 10px;
+        min-height: var(--gc-header-height);
+    }
+
+    .gc-header__brand {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .gc-header__actions {
+        flex: 0 0 auto;
+        margin-left: auto;
+        gap: 8px;
+        align-items: center;
+    }
+
+    /* Hide inline nav; open via hamburger panel */
+    .gc-nav-toggle {
+        display: inline-flex;
     }
 
     .gc-nav {
-        order: 3;
-        flex-basis: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        flex: none;
+        padding: 12px var(--gc-gutter) 16px;
+        background: var(--gc-header-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--gc-border);
+        box-shadow: var(--gc-shadow-md);
     }
 
-    .gc-nav::-webkit-scrollbar {
-        display: none;
+    .gc-header.is-nav-open .gc-nav {
+        display: block;
     }
 
     .gc-nav__list {
+        flex-direction: column;
+        align-items: stretch;
         gap: 2px;
-        flex-wrap: nowrap;
-        width: max-content;
-        min-width: 100%;
+        width: 100%;
     }
 
     .gc-nav__link {
-        white-space: nowrap;
-        padding: 8px 10px;
+        display: block;
+        padding: 12px 10px;
+        white-space: normal;
     }
 
     .gc-header .gc-socials {
         display: none;
     }
 
-    .gc-header__actions {
-        margin-left: auto;
-        gap: 8px;
-    }
-
     .gc-subscribe {
         padding: 7px 12px;
         font-size: 0.85rem;
+    }
+
+    /* Light bars when transparent over a top image */
+    .has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav {
+        background: rgba(10, 12, 16, 0.88);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav__link {
+        color: rgba(255, 255, 255, 0.92);
     }
 }
 
@@ -900,7 +931,7 @@ hr {
    12. Post feature image + title block (title sits below the image)
    -------------------------------------------------------------------------- */
 
-/* Post feature — Edition-style: full width, natural image height (parallax still applies) */
+/* Post feature — shorter than homepage 100vh hero on desktop; natural on mobile */
 .gc-post-feature {
     margin: 0;
     width: 100%;
@@ -911,8 +942,7 @@ hr {
 .gc-post-feature__img {
     display: block;
     width: 100%;
-    height: auto;
-    max-height: none;
+    height: 65vh;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -985,7 +1015,7 @@ hr {
    13. Page hero (flush feature image, no overlay)
    -------------------------------------------------------------------------- */
 
-/* Page hero — same natural-height treatment as post features */
+/* Page hero — same sizing as post features */
 .gc-page-hero {
     margin: 0;
     width: 100%;
@@ -996,8 +1026,7 @@ hr {
 .gc-page-hero__img {
     display: block;
     width: 100%;
-    height: auto;
-    max-height: none;
+    height: 65vh;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -1493,6 +1522,14 @@ hr {
     .gc-card-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+
+    /* Mobile post/page features: natural height (as before) */
+    .gc-post-feature__img,
+    .gc-page-hero__img {
+        height: auto;
+        max-height: none;
+        object-fit: cover;
     }
 
     .gc-post-header,

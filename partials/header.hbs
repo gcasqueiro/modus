@@ -18,7 +18,7 @@
             {{/match}}
         </div>
 
-        <nav class="gc-nav" aria-label="Main navigation">
+        <nav id="gc-nav" class="gc-nav" aria-label="Main navigation">
             {{navigation}}
         </nav>
 
@@ -52,6 +52,18 @@
                 <a class="gc-subscribe" href="#/portal/account" data-portal="account">Account</a>
                 {{/unless}}
             {{/if}}
+
+            <button
+                type="button"
+                class="gc-nav-toggle"
+                id="gc-nav-toggle"
+                aria-controls="gc-nav"
+                aria-expanded="false"
+                aria-label="Open menu">
+                <span class="gc-nav-toggle__bar" aria-hidden="true"></span>
+                <span class="gc-nav-toggle__bar" aria-hidden="true"></span>
+                <span class="gc-nav-toggle__bar" aria-hidden="true"></span>
+            </button>
 
         </div>
 

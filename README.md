@@ -54,7 +54,6 @@ Modus is built to avoid those defaults:
 
 | Setting | Effect in Modus |
 | --- | --- |
-| Accent colour | Links, buttons, tags, and the dark-mode toggle track in light mode |
 | Publication cover | Homepage hero if you do not set a custom light hero |
 | Logo | Shown when navbar brand is set to “Logo image” |
 | Site fonts | Used automatically when you pick fonts in Ghost |
@@ -67,7 +66,8 @@ Modus is built to avoid those defaults:
 | Hero image (light) | Homepage hero for light mode |
 | Hero image (dark) | Optional hero that swaps in for dark mode |
 | Show homepage description | Show the site tagline under the hero |
-| Dark-mode accent | Separate accent colour when dark mode is on |
+| Light-mode accent | Accent colour used in light mode (links, buttons, tags) |
+| Dark-mode accent | Accent colour used in dark mode |
 | Show reading time | Reading time on cards and posts |
 | Show author on cards | Author name on listing cards |
 | Footer text | Replaces the default copyright line |
