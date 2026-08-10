@@ -735,7 +735,7 @@ hr {
 
 .gc-post-feature__img {
     width: 100%;
-    height: clamp(220px, 36vh, 400px);
+    height: clamp(320px, 50vh, 560px);
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -818,7 +818,7 @@ hr {
 
 .gc-page-hero__img {
     width: 100%;
-    height: clamp(220px, 36vh, 400px);
+    height: clamp(320px, 50vh, 560px);
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -1321,7 +1321,7 @@ hr {
 
     .gc-post-feature__img,
     .gc-page-hero__img {
-        height: clamp(180px, 28vh, 280px);
+        height: clamp(240px, 40vh, 420px);
     }
 
     .gc-post-header,
