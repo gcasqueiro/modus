@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+<head>
+
+    {{!-- Apply light/dark before paint to avoid a flash of the wrong theme. --}}
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('gc-theme');
+                var theme = (stored === 'dark' || stored === 'light')
+                    ? stored
+                    : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    {{> "head"}}
+
+</head>
+<body class="{{body_class}}">
+
+    {{> "header"}}
+
+    <main id="main" class="gc-main" role="main">
+        {{{body}}}
+    </main>
+
+    {{> "footer"}}
+
+    {{ghost_foot}}
+
+    <script src="{{asset "js/main.js"}}" defer></script>
+
+</body>
+</html>

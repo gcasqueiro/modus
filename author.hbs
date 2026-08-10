@@ -1,0 +1,35 @@
+{{!< default}}
+
+<div class="gc-container">
+
+    {{#author}}
+    <header class="gc-archive-header gc-archive-header--author">
+        {{#if profile_image}}
+        <img class="gc-archive-header__avatar" src="{{img_url profile_image size="m"}}" alt="{{name}}">
+        {{/if}}
+        <p class="gc-archive-header__eyebrow">Author</p>
+        <h1 class="gc-archive-header__title">{{name}}</h1>
+        {{#if bio}}
+        <p class="gc-archive-header__desc">{{bio}}</p>
+        {{/if}}
+        <div class="gc-archive-header__links">
+            {{#if website}}<a href="{{website}}" target="_blank" rel="noopener noreferrer">Website</a>{{/if}}
+            {{#if twitter}}<a href="https://x.com/{{twitter}}" target="_blank" rel="noopener noreferrer">X</a>{{/if}}
+            {{#if facebook}}<a href="https://www.facebook.com/{{facebook}}" target="_blank" rel="noopener noreferrer">Facebook</a>{{/if}}
+        </div>
+    </header>
+    {{/author}}
+
+    {{#if posts}}
+    <div class="gc-card-grid" data-posts-grid>
+        {{#foreach posts}}
+            {{> "post-card"}}
+        {{/foreach}}
+    </div>
+
+    {{> "load-more"}}
+    {{else}}
+    <p class="gc-empty">No posts by this author yet.</p>
+    {{/if}}
+
+</div>

@@ -1,0 +1,7 @@
+<ul class="gc-nav__list" role="menu">
+    {{#foreach navigation}}
+    <li class="gc-nav__item{{#if current}} gc-nav__item--current{{/if}}" role="menuitem">
+        <a class="gc-nav__link" href="{{url absolute="true"}}">{{label}}</a>
+    </li>
+    {{/foreach}}
+</ul>

@@ -1,0 +1,59 @@
+<header class="gc-header" role="banner">
+    <div class="gc-header__inner">
+
+        <div class="gc-header__brand">
+            {{#match @custom.navbar_brand "Logo image"}}
+                <a class="gc-logo" href="{{@site.url}}">
+                    {{#if @site.logo}}
+                        <img class="gc-logo__img" src="{{@site.logo}}" alt="{{@site.title}}">
+                    {{else}}
+                        <span class="gc-logo__text">{{@site.title}}</span>
+                    {{/if}}
+                </a>
+            {{/match}}
+            {{#match @custom.navbar_brand "Site title"}}
+                <a class="gc-logo" href="{{@site.url}}">
+                    <span class="gc-logo__text">{{@site.title}}</span>
+                </a>
+            {{/match}}
+        </div>
+
+        <nav class="gc-nav" aria-label="Main navigation">
+            {{navigation}}
+        </nav>
+
+        <div class="gc-header__actions">
+
+            {{> "socials-helper"}}
+
+            <button
+                type="button"
+                id="gc-theme-toggle"
+                class="gc-toggle"
+                role="switch"
+                aria-checked="false"
+                aria-label="Toggle dark mode"
+                title="Toggle dark mode">
+                <svg class="gc-toggle__icon gc-toggle__icon--sun" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false">
+                    <path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 17a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm9-8a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM5 12a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95 6.364a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 1 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zM7.757 7.757a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 0 1 7.05 5.636l.707.707a1 1 0 0 1 0 1.414zm9.193-2.121a1 1 0 0 1 0 1.414l-.707.707A1 1 0 1 1 14.83 6.343l.707-.707a1 1 0 0 1 1.414 0zM7.05 18.364a1 1 0 0 1 0-1.414l.707-.707a1 1 0 1 1 1.414 1.414l-.707.707a1 1 0 0 1-1.414 0z"/>
+                </svg>
+                <span class="gc-toggle__track" aria-hidden="true">
+                    <span class="gc-toggle__knob"></span>
+                </span>
+                <svg class="gc-toggle__icon gc-toggle__icon--moon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false">
+                    <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"/>
+                </svg>
+            </button>
+
+            {{#if @site.members_enabled}}
+                {{#unless @member}}
+                <a class="gc-subscribe" href="#/portal/signup" data-portal="signup">Subscribe</a>
+                {{else}}
+                <a class="gc-subscribe" href="#/portal/account" data-portal="account">Account</a>
+                {{/unless}}
+            {{/if}}
+
+        </div>
+
+    </div>
+</header>

@@ -1,0 +1,30 @@
+{{!< default}}
+
+<div class="gc-container">
+
+    {{#tag}}
+    <header class="gc-archive-header">
+        <p class="gc-archive-header__eyebrow">Tag</p>
+        <h1 class="gc-archive-header__title">{{name}}</h1>
+        {{#if description}}
+        <p class="gc-archive-header__desc">{{description}}</p>
+        {{/if}}
+        <p class="gc-archive-header__count">
+            {{plural ../pagination.total empty="No posts" singular="% post" plural="% posts"}}
+        </p>
+    </header>
+    {{/tag}}
+
+    {{#if posts}}
+    <div class="gc-card-grid" data-posts-grid>
+        {{#foreach posts}}
+            {{> "post-card"}}
+        {{/foreach}}
+    </div>
+
+    {{> "load-more"}}
+    {{else}}
+    <p class="gc-empty">No posts in this tag yet.</p>
+    {{/if}}
+
+</div>

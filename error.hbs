@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+<head>
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('gc-theme');
+                var theme = (stored === 'dark' || stored === 'light')
+                    ? stored
+                    : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{error.statusCode}} &mdash; {{@site.title}}</title>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" type="text/css" href="{{asset "css/screen.css"}}">
+    {{ghost_head}}
+</head>
+<body class="gc-error-body">
+
+    <main class="gc-error" role="main">
+        <p class="gc-error__code">{{error.statusCode}}</p>
+        <h1 class="gc-error__title">{{error.message}}</h1>
+        <p class="gc-error__text">Sorry, that page could not be found.</p>
+        <a class="gc-error__home" href="{{@site.url}}">&larr; Back home</a>
+    </main>
+
+    {{ghost_foot}}
+</body>
+</html>

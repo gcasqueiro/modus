@@ -1,0 +1,64 @@
+{{!< default}}
+
+{{#is "home"}}
+    {{!-- Homepage hero: custom light/dark images, or publication cover. --}}
+    {{#if @custom.hero_image_light}}
+    <section class="gc-home-hero" data-parallax>
+        <img class="gc-home-hero__img{{#if @custom.hero_image_dark}} gc-home-hero__img--light{{/if}}" src="{{img_url @custom.hero_image_light size="xl"}}" alt="{{@site.title}}">
+        {{#if @custom.hero_image_dark}}
+        <img class="gc-home-hero__img gc-home-hero__img--dark" src="{{img_url @custom.hero_image_dark size="xl"}}" alt="{{@site.title}}">
+        {{/if}}
+    </section>
+    {{else}}
+        {{#if @site.cover_image}}
+        <section class="gc-home-hero" data-parallax>
+            <img class="gc-home-hero__img{{#if @custom.hero_image_dark}} gc-home-hero__img--light{{/if}}" src="{{img_url @site.cover_image size="xl"}}" alt="{{@site.title}}">
+            {{#if @custom.hero_image_dark}}
+            <img class="gc-home-hero__img gc-home-hero__img--dark" src="{{img_url @custom.hero_image_dark size="xl"}}" alt="{{@site.title}}">
+            {{/if}}
+        </section>
+        {{/if}}
+    {{/if}}
+{{/is}}
+
+<div class="gc-container gc-listing">
+
+    {{#is "home"}}
+        {{#match @custom.show_homepage_description true}}
+        {{#if @site.description}}
+        <header class="gc-intro">
+            <p class="gc-intro__text">{{@site.description}}</p>
+        </header>
+        {{/if}}
+        {{/match}}
+
+        {{#get "posts" filter="featured:true" limit="6" include="authors,tags" as |featured|}}
+            {{#if featured}}
+            <section class="gc-section gc-featured">
+                <h2 class="gc-section-title">Featured</h2>
+                <div class="gc-card-grid">
+                    {{#foreach featured}}
+                        {{> "post-card"}}
+                    {{/foreach}}
+                </div>
+            </section>
+            {{/if}}
+        {{/get}}
+    {{/is}}
+
+    {{#if posts}}
+    <section class="gc-section">
+        {{#is "home"}}<h2 class="gc-section-title">Latest</h2>{{/is}}
+        <div class="gc-card-grid" data-posts-grid>
+            {{#foreach posts}}
+                {{> "post-card"}}
+            {{/foreach}}
+        </div>
+
+        {{> "load-more"}}
+    </section>
+    {{else}}
+    <p class="gc-empty">No posts yet. Check back soon.</p>
+    {{/if}}
+
+</div>

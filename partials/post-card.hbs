@@ -1,0 +1,42 @@
+<article class="gc-card {{post_class}}{{#match @custom.show_author_on_cards true}} gc-card--with-author{{/match}}">
+
+    {{#if feature_image}}
+    <a class="gc-card__image-link" href="{{url}}" aria-label="{{title}}">
+        <img class="gc-card__image"
+            srcset="{{img_url feature_image size="s"}} 300w,
+                    {{img_url feature_image size="m"}} 600w,
+                    {{img_url feature_image size="l"}} 1000w"
+            sizes="(max-width: 640px) 100vw, 520px"
+            src="{{img_url feature_image size="m"}}"
+            alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+            loading="lazy">
+    </a>
+    {{/if}}
+
+    <div class="gc-card__body">
+        {{#primary_tag}}
+        <a class="gc-card__tag" href="{{url}}">{{name}}</a>
+        {{/primary_tag}}
+
+        <h2 class="gc-card__title">
+            <a href="{{url}}">{{title}}</a>
+        </h2>
+
+        <p class="gc-card__excerpt">{{excerpt characters="140"}}</p>
+
+        <div class="gc-card__meta">
+            {{#match @custom.show_author_on_cards true}}
+            {{#primary_author}}
+            <span class="gc-card__author">{{name}}</span>
+            <span class="gc-card__dot" aria-hidden="true">&middot;</span>
+            {{/primary_author}}
+            {{/match}}
+            <time class="gc-card__date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time>
+            {{#match @custom.show_reading_time true}}
+            <span class="gc-card__dot" aria-hidden="true">&middot;</span>
+            <span class="gc-card__reading-time">{{reading_time}}</span>
+            {{/match}}
+        </div>
+    </div>
+
+</article>
