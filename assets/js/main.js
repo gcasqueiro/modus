@@ -195,67 +195,34 @@
         update();
     }
 
-    /* Current theme accent as a resolved color (for Portal iframe --brandcolor). */
-    function currentAccentColor() {
-        var value = getComputedStyle(root).getPropertyValue('--gc-accent').trim();
-        return value || getComputedStyle(root).getPropertyValue('--ghost-accent-color').trim();
-    }
-
-    /*
-     * Ghost's floating Portal button (bottom-right) lives in an iframe and uses
-     * --brandcolor from the site Brand accent, not theme CSS. Push our light/dark
-     * theme accents into those iframes so Subscribe matches the active mode.
-     */
+    /* Portal accent: early paint lives in default.hbs; re-run on theme toggle. */
     function stylePortalAccent() {
-        var color = currentAccentColor();
+        if (typeof window.__gcPaintPortalAccent === 'function') {
+            window.__gcPaintPortalAccent();
+            return;
+        }
+        /* Fallback if inline script missing */
+        var accents = window.__gcPortalAccents || {};
+        var mode = currentTheme();
+        var color = accents[mode] || getComputedStyle(root).getPropertyValue('--gc-accent').trim();
         if (!color) return;
-
         var frames = document.querySelectorAll(
-            'iframe[data-testid="portal-trigger-frame"], iframe.gh-portal-triggerbtn-iframe, iframe[title="portal-trigger"], iframe[data-testid="portal-popup-frame"], iframe[title="portal-popup"]'
+            'iframe[title="portal-trigger"], iframe[data-testid="portal-trigger-frame"], iframe.gh-portal-triggerbtn-iframe, iframe[title="portal-popup"], iframe[data-testid="portal-popup-frame"]'
         );
-
         for (var i = 0; i < frames.length; i++) {
             try {
                 var doc = frames[i].contentDocument;
                 if (!doc || !doc.documentElement) continue;
-
                 doc.documentElement.style.setProperty('--brandcolor', color);
-
                 var btn = doc.querySelector('.gh-portal-triggerbtn-container');
-                if (btn) {
-                    btn.style.background = color;
-                }
-
-                /* Primary buttons inside the open portal popup */
-                var primary = doc.querySelectorAll('.gh-portal-btn-main, .gh-portal-btn-primary, button.gh-portal-btn');
-                for (var j = 0; j < primary.length; j++) {
-                    if (primary[j].classList.contains('gh-portal-btn-text')) continue;
-                    primary[j].style.backgroundColor = color;
-                    primary[j].style.borderColor = color;
-                }
-            } catch (e) {
-                /* cross-origin iframe — ignore */
-            }
+                if (btn) btn.style.setProperty('background', color, 'important');
+                frames[i].classList.add('gc-portal-ready');
+            } catch (e) { /* ignore */ }
         }
     }
 
     function initPortalAccent() {
         stylePortalAccent();
-
-        /* Portal mounts asynchronously after ghost_foot scripts run */
-        var tries = 0;
-        var timer = window.setInterval(function () {
-            stylePortalAccent();
-            tries += 1;
-            if (tries > 40) window.clearInterval(timer);
-        }, 250);
-
-        if (window.MutationObserver) {
-            var observer = new MutationObserver(function () {
-                stylePortalAccent();
-            });
-            observer.observe(document.documentElement, { childList: true, subtree: true });
-        }
     }
 
     /* Mobile hamburger menu */

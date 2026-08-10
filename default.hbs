@@ -32,6 +32,90 @@
 
     {{ghost_foot}}
 
+    {{!--
+        Portal floating button uses Ghost Brand colour inside an iframe.
+        Paint Design light/dark accents immediately (not deferred) so light mode
+        never flashes the Brand / dark accent first.
+    --}}
+    <script>
+        (function () {
+            var accents = {
+                light: '{{@custom.light_accent_color}}',
+                dark: '{{@custom.dark_accent_color}}'
+            };
+
+            function activeTheme() {
+                return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            }
+
+            function accentColor() {
+                var c = accents[activeTheme()];
+                if (c && c.charAt(0) === '#') return c;
+                try {
+                    return getComputedStyle(document.documentElement).getPropertyValue('--gc-accent').trim();
+                } catch (e) {
+                    return '';
+                }
+            }
+
+            function paintPortal() {
+                var color = accentColor();
+                if (!color) return false;
+
+                var frames = document.querySelectorAll(
+                    'iframe[title="portal-trigger"], iframe[data-testid="portal-trigger-frame"], iframe.gh-portal-triggerbtn-iframe, iframe[title="portal-popup"], iframe[data-testid="portal-popup-frame"]'
+                );
+                var ready = false;
+
+                for (var i = 0; i < frames.length; i++) {
+                    var frame = frames[i];
+                    try {
+                        var doc = frame.contentDocument;
+                        if (!doc || !doc.documentElement) continue;
+
+                        doc.documentElement.style.setProperty('--brandcolor', color);
+
+                        var btn = doc.querySelector('.gh-portal-triggerbtn-container');
+                        if (btn) {
+                            btn.style.setProperty('background', color, 'important');
+                            ready = true;
+                        }
+
+                        var primary = doc.querySelectorAll('.gh-portal-btn-main, .gh-portal-btn-primary, button.gh-portal-btn');
+                        for (var j = 0; j < primary.length; j++) {
+                            if (primary[j].classList.contains('gh-portal-btn-text')) continue;
+                            primary[j].style.setProperty('background-color', color, 'important');
+                            primary[j].style.setProperty('border-color', color, 'important');
+                        }
+
+                        if (frame.title === 'portal-trigger' ||
+                            frame.getAttribute('data-testid') === 'portal-trigger-frame' ||
+                            (frame.classList && frame.classList.contains('gh-portal-triggerbtn-iframe'))) {
+                            frame.classList.add('gc-portal-ready');
+                        }
+                    } catch (e) { /* ignore */ }
+                }
+
+                return ready;
+            }
+
+            window.__gcPaintPortalAccent = paintPortal;
+            window.__gcPortalAccents = accents;
+
+            if (window.MutationObserver) {
+                new MutationObserver(function () { paintPortal(); })
+                    .observe(document.documentElement, { childList: true, subtree: true });
+            }
+
+            paintPortal();
+            var n = 0;
+            var timer = window.setInterval(function () {
+                paintPortal();
+                if (++n > 80) window.clearInterval(timer);
+            }, 50);
+        })();
+    </script>
+
     <script src="{{asset "js/main.js"}}" defer></script>
 
 </body>

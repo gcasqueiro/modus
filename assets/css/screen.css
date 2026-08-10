@@ -49,7 +49,7 @@
     --gc-text-faint: #868d96;
     --gc-border: #e6e8eb;
     --gc-border-strong: #d4d8dd;
-    --gc-accent: var(--gc-accent-light, #2f6df6);
+    --gc-accent: var(--gc-accent-light);
     --gc-accent-hover: color-mix(in srgb, var(--gc-accent) 82%, #000);
     --gc-code-bg: #f2f4f7;
     --gc-code-text: #1a1d21;
@@ -76,7 +76,7 @@
     --gc-text-faint: #767d88;
     --gc-border: #262b33;
     --gc-border-strong: #333a44;
-    --gc-accent: var(--gc-accent-dark, #5b8bff);
+    --gc-accent: var(--gc-accent-dark);
     --gc-accent-hover: color-mix(in srgb, var(--gc-accent) 82%, #fff);
     --gc-code-bg: #1b2027;
     --gc-code-text: #e8eaed;
@@ -91,6 +91,22 @@
 
     --gc-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
     --gc-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Hide Ghost Portal floating button until we paint the theme accent (avoids Brand-color flash) */
+iframe[title="portal-trigger"],
+iframe[data-testid="portal-trigger-frame"],
+iframe.gh-portal-triggerbtn-iframe {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.12s ease !important;
+}
+
+iframe[title="portal-trigger"].gc-portal-ready,
+iframe[data-testid="portal-trigger-frame"].gc-portal-ready,
+iframe.gh-portal-triggerbtn-iframe.gc-portal-ready {
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 /* --------------------------------------------------------------------------
