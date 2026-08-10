@@ -14,9 +14,13 @@
     {{/if}}
 
     <div class="gc-card__body">
-        {{#primary_tag}}
-        <a class="gc-card__tag" href="{{url}}">{{name}}</a>
-        {{/primary_tag}}
+        {{#if tags}}
+        <div class="gc-card__tags">
+            {{#foreach tags}}
+            <a class="gc-card__tag" href="{{url}}">{{name}}</a>
+            {{/foreach}}
+        </div>
+        {{/if}}
 
         <h2 class="gc-card__title">
             <a href="{{url}}">{{title}}</a>

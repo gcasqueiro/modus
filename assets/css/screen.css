@@ -832,15 +832,25 @@ hr {
     min-height: 0;
 }
 
+.gc-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-bottom: 0.5rem;
+}
+
 .gc-card__tag {
     display: inline-block;
-    flex: 0 0 auto;
-    margin-bottom: 0.5rem;
     font-size: 0.78rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--gc-accent);
+}
+
+.gc-card__tag:hover {
+    color: var(--gc-accent-hover);
 }
 
 .gc-card__title {
