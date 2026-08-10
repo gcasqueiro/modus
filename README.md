@@ -19,7 +19,7 @@ Modus is built to avoid those defaults:
 | --- | --- |
 | **True light / dark mode** | Readers pick light or dark. The choice is saved in the browser and applied *before* the page paints (no white flash). If they never choose, the site follows their system setting. |
 | **Separate light & dark heroes** | Optionally upload two homepage images. The theme shows the right one for light or dark mode automatically. |
-| **Tall homepage hero** | The homepage image is large and full-width; post feature images stay shorter so the title is not pushed far down the page. |
+| **Fullscreen homepage hero** | Homepage cover fills the viewport (Edition-style), with an animated scroll chevron. Post feature images use full width at their natural height. |
 | **Wider reading column** | Post text uses about half the screen width on large displays (roughly 25% margin on each side), and goes full width on phones. |
 | **Full-size embeds** | YouTube and other video cards stretch to the content width in a proper 16:9 frame — same idea as images, not a tiny default player. |
 | **Featured + Latest homepage** | Posts you mark as *Featured* in Ghost appear in their own row above the main feed. |

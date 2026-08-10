@@ -513,22 +513,76 @@ hr {
     transform-origin: center center;
 }
 
-/* Homepage hero — tall full-bleed frame (parallax zooms within the clip) */
+/* Homepage hero — Edition-style fullscreen cover (100vh), parallax zooms inside */
 .gc-home-hero {
+    position: relative;
+    display: block;
     margin: 0;
     width: 100%;
-    line-height: 0;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
     background: var(--gc-bg-subtle);
 }
 
 .gc-home-hero__img {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
-    height: 100vh;
-    height: 100dvh; /* dynamic viewport — accounts for mobile browser chrome */
+    height: 100%;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
+}
+
+/* Animated chevron — invites scroll (no overlay form on the hero) */
+.gc-home-hero__scroll {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.28);
+    color: #fff;
+    cursor: pointer;
+    transform: translateX(-50%);
+    animation: gc-chevron-bounce 1.8s ease-in-out infinite;
+    transition: background 0.15s var(--gc-ease-smooth);
+}
+
+.gc-home-hero__scroll:hover {
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+}
+
+.gc-home-hero__scroll svg {
+    width: 22px;
+    height: 22px;
+}
+
+@keyframes gc-chevron-bounce {
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(8px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gc-home-hero__scroll {
+        animation: none;
+    }
 }
 
 /* Light/dark hero swap: only applies when a dark variant is provided */
@@ -726,7 +780,7 @@ hr {
    12. Post feature image + title block (title sits below the image)
    -------------------------------------------------------------------------- */
 
-/* Post feature — shorter band so the title stays near the top of the page */
+/* Post feature — Edition-style: full width, natural image height (parallax still applies) */
 .gc-post-feature {
     margin: 0;
     width: 100%;
@@ -735,9 +789,10 @@ hr {
 }
 
 .gc-post-feature__img {
+    display: block;
     width: 100%;
-    height: 100vh;
-    height: 100dvh;
+    height: auto;
+    max-height: none;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -810,7 +865,7 @@ hr {
    13. Page hero (flush feature image, no overlay)
    -------------------------------------------------------------------------- */
 
-/* Page hero — same moderate height as post features */
+/* Page hero — same natural-height treatment as post features */
 .gc-page-hero {
     margin: 0;
     width: 100%;
@@ -819,9 +874,10 @@ hr {
 }
 
 .gc-page-hero__img {
+    display: block;
     width: 100%;
-    height: 100vh;
-    height: 100dvh;
+    height: auto;
+    max-height: none;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -1225,9 +1281,10 @@ hr {
 }
 
 .gc-subscribe-form {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    gap: 8px;
     max-width: 460px;
     margin: 0 auto;
     padding: 6px;
@@ -1237,8 +1294,8 @@ hr {
 }
 
 .gc-subscribe-form__input {
-    flex: 1 1 auto;
     min-width: 0;
+    width: 100%;
     border: 0;
     background: transparent;
     padding: 10px 16px;
@@ -1256,7 +1313,6 @@ hr {
 }
 
 .gc-subscribe-form__button {
-    flex: 0 0 auto;
     border: 0;
     padding: 10px 22px;
     border-radius: var(--gc-radius-pill);
@@ -1266,6 +1322,7 @@ hr {
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
     transition: background 0.15s var(--gc-ease-smooth);
 }
 
@@ -1345,12 +1402,25 @@ hr {
         text-align: center;
     }
 
+    /* Stack subscribe form cleanly on small screens (avoid broken pill layout) */
     .gc-subscribe-form {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        border-radius: var(--gc-radius);
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .gc-subscribe-form__input {
+        padding: 12px 14px;
+        border: 1px solid var(--gc-border);
+        border-radius: var(--gc-radius);
+        background: var(--gc-bg);
     }
 
     .gc-subscribe-form__button {
         width: 100%;
+        padding: 12px 16px;
+        border-radius: var(--gc-radius);
     }
 
     .gc-footer {
