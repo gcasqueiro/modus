@@ -71,9 +71,43 @@
     </div>
 
 </article>
-{{/post}}
 
-{{> "related-posts"}}
+{{!-- Related posts (same post context so {{id}} / {{tags}} work in the filter) --}}
+{{#get "posts" filter="tags:[{{tags}}]+id:-{{id}}" limit="3" include="tags"}}
+    {{#foreach posts}}
+        {{#if @first}}
+        <section class="gc-related" aria-labelledby="gc-related-title">
+            <div class="gc-container">
+                <h2 class="gc-related__title" id="gc-related-title">You might also like...</h2>
+                <div class="gc-related__grid">
+        {{/if}}
+                    {{> "related-card"}}
+        {{#if @last}}
+                </div>
+            </div>
+        </section>
+        {{/if}}
+    {{else}}
+        {{#get "posts" filter="id:-{{id}}" limit="3" include="tags"}}
+            {{#foreach posts}}
+                {{#if @first}}
+                <section class="gc-related" aria-labelledby="gc-related-title">
+                    <div class="gc-container">
+                        <h2 class="gc-related__title" id="gc-related-title">You might also like...</h2>
+                        <div class="gc-related__grid">
+                {{/if}}
+                            {{> "related-card"}}
+                {{#if @last}}
+                        </div>
+                    </div>
+                </section>
+                {{/if}}
+            {{/foreach}}
+        {{/get}}
+    {{/foreach}}
+{{/get}}
+
+{{/post}}
 
 {{#if @site.members_enabled}}
 {{#unless @member}}
