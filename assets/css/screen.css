@@ -586,9 +586,8 @@ hr {
         z-index: 40;
         flex: none;
         padding: 12px var(--gc-gutter) 16px;
-        background: var(--gc-header-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        /* Theme-aware panel: white in light mode, dark in dark mode */
+        background: var(--gc-bg);
         border-bottom: 1px solid var(--gc-border);
         box-shadow: var(--gc-shadow-md);
     }
@@ -608,6 +607,16 @@ hr {
         display: block;
         padding: 12px 10px;
         white-space: normal;
+        color: var(--gc-text-muted);
+    }
+
+    .gc-nav__link:hover {
+        color: var(--gc-text);
+        background: var(--gc-bg-subtle);
+    }
+
+    .gc-nav__item--current .gc-nav__link {
+        color: var(--gc-text);
     }
 
     .gc-header .gc-socials {
@@ -617,16 +626,6 @@ hr {
     .gc-subscribe {
         padding: 7px 12px;
         font-size: 0.85rem;
-    }
-
-    /* Light bars when transparent over a top image */
-    .has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav {
-        background: rgba(10, 12, 16, 0.88);
-        border-bottom-color: rgba(255, 255, 255, 0.08);
-    }
-
-    .has-top-image.is-head-transparent .gc-header:not(.is-scrolled) .gc-nav__link {
-        color: rgba(255, 255, 255, 0.92);
     }
 }
 
@@ -942,7 +941,7 @@ hr {
 .gc-post-feature__img {
     display: block;
     width: 100%;
-    height: 65vh;
+    height: 82vh;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
@@ -1026,7 +1025,7 @@ hr {
 .gc-page-hero__img {
     display: block;
     width: 100%;
-    height: 65vh;
+    height: 82vh;
     object-fit: cover;
     object-position: center center;
     border-radius: 0;
