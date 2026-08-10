@@ -66,8 +66,8 @@ Modus is built to avoid those defaults:
 | Hero image (light) | Homepage hero for light mode |
 | Hero image (dark) | Optional hero that swaps in for dark mode |
 | Show homepage description | Show the site tagline under the hero |
-| Light-mode accent | Accent colour used in light mode (links, buttons, tags) |
-| Dark-mode accent | Accent colour used in dark mode |
+| Light-mode accent | Brand colour in light mode (Subscribe, links, tags, buttons) |
+| Dark-mode accent | Brand colour in dark mode (same elements) |
 | Show reading time | Reading time on cards and posts |
 | Show author on cards | Author name on listing cards |
 | Footer text | Replaces the default copyright line |

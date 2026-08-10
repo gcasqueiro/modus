@@ -7,11 +7,25 @@
 
 <link rel="stylesheet" type="text/css" href="{{asset "css/screen.css"}}">
 
+{{ghost_head}}
+
+{{!-- Light/dark accents after ghost_head so Brand UI (buttons, portal) matches theme settings. --}}
 <style>
     :root {
-        {{#if @custom.light_accent_color}}--gc-accent-light: {{@custom.light_accent_color}};{{/if}}
-        {{#if @custom.dark_accent_color}}--gc-accent-dark: {{@custom.dark_accent_color}};{{/if}}
+        --gc-accent-light: {{@custom.light_accent_color}};
+        --gc-accent-dark: {{@custom.dark_accent_color}};
+    }
+
+    :root,
+    [data-theme="light"] {
+        --gc-accent: var(--gc-accent-light);
+        --gc-accent-hover: color-mix(in srgb, var(--gc-accent) 82%, #000);
+        --ghost-accent-color: var(--gc-accent-light);
+    }
+
+    [data-theme="dark"] {
+        --gc-accent: var(--gc-accent-dark);
+        --gc-accent-hover: color-mix(in srgb, var(--gc-accent) 82%, #fff);
+        --ghost-accent-color: var(--gc-accent-dark);
     }
 </style>
-
-{{ghost_head}}

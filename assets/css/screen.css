@@ -49,7 +49,7 @@
     --gc-text-faint: #868d96;
     --gc-border: #e6e8eb;
     --gc-border-strong: #d4d8dd;
-    --gc-accent: var(--gc-accent-light, var(--ghost-accent-color, #2f6df6));
+    --gc-accent: var(--gc-accent-light, #2f6df6);
     --gc-accent-hover: color-mix(in srgb, var(--gc-accent) 82%, #000);
     --gc-code-bg: #f2f4f7;
     --gc-code-text: #1a1d21;

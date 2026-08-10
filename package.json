@@ -68,11 +68,13 @@
       },
       "light_accent_color": {
         "type": "color",
-        "default": "#2f6df6"
+        "default": "#2f6df6",
+        "description": "Brand accent in light mode (links, Subscribe, tags)"
       },
       "dark_accent_color": {
         "type": "color",
-        "default": "#5b8bff"
+        "default": "#5b8bff",
+        "description": "Brand accent in dark mode (links, Subscribe, tags)"
       },
       "show_reading_time": {
         "type": "boolean",
