@@ -404,11 +404,6 @@ hr {
     background: var(--gc-toggle-knob);
 }
 
-.is-head-transparent .gc-header.is-scrolled[data-theme],
-[data-theme="dark"] .is-head-transparent .gc-header.is-scrolled .gc-toggle__track {
-    /* dark mode accent track restored via existing [data-theme="dark"] .gc-toggle__track */
-}
-
 /* --------------------------------------------------------------------------
    5. Social icons
    -------------------------------------------------------------------------- */
