@@ -330,6 +330,22 @@ hr {
     background: rgba(255, 255, 255, 0.12);
 }
 
+.is-head-transparent .gc-toggle__icon--sun {
+    color: #f5d76e;
+}
+
+.is-head-transparent .gc-toggle__icon--moon {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.is-head-transparent .gc-toggle__track {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.is-head-transparent .gc-toggle__knob {
+    background: #fff;
+}
+
 /* Solid header after scrolling past the hero (readable over page content) */
 .is-head-transparent .gc-header.is-scrolled {
     position: fixed;
@@ -370,6 +386,27 @@ hr {
 .is-head-transparent .gc-header.is-scrolled .gc-social:hover {
     color: var(--gc-text);
     background: var(--gc-bg-subtle);
+}
+
+.is-head-transparent .gc-header.is-scrolled .gc-toggle__icon--sun {
+    color: var(--gc-toggle-sun);
+}
+
+.is-head-transparent .gc-header.is-scrolled .gc-toggle__icon--moon {
+    color: var(--gc-toggle-moon);
+}
+
+.is-head-transparent .gc-header.is-scrolled .gc-toggle__track {
+    background: var(--gc-toggle-track);
+}
+
+.is-head-transparent .gc-header.is-scrolled .gc-toggle__knob {
+    background: var(--gc-toggle-knob);
+}
+
+.is-head-transparent .gc-header.is-scrolled[data-theme],
+[data-theme="dark"] .is-head-transparent .gc-header.is-scrolled .gc-toggle__track {
+    /* dark mode accent track restored via existing [data-theme="dark"] .gc-toggle__track */
 }
 
 /* --------------------------------------------------------------------------
