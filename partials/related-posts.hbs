@@ -1,0 +1,38 @@
+{{!--
+    Related posts for the post template.
+    Prefer posts that share any tag; if none, use featured posts; if none, latest.
+    Always excludes the current post.
+--}}
+{{#post}}
+{{#if tags}}
+    {{#get "posts" filter="tags:[{{tags}}]+id:-{{id}}" limit="3" include="tags" as |related|}}
+        {{#if related}}
+            {{> "related-posts-section" posts=related}}
+        {{else}}
+            {{#get "posts" filter="featured:true+id:-{{../id}}" limit="3" include="tags" as |related|}}
+                {{#if related}}
+                    {{> "related-posts-section" posts=related}}
+                {{else}}
+                    {{#get "posts" filter="id:-{{../../id}}" limit="3" include="tags" as |related|}}
+                        {{#if related}}
+                            {{> "related-posts-section" posts=related}}
+                        {{/if}}
+                    {{/get}}
+                {{/if}}
+            {{/get}}
+        {{/if}}
+    {{/get}}
+{{else}}
+    {{#get "posts" filter="featured:true+id:-{{id}}" limit="3" include="tags" as |related|}}
+        {{#if related}}
+            {{> "related-posts-section" posts=related}}
+        {{else}}
+            {{#get "posts" filter="id:-{{../id}}" limit="3" include="tags" as |related|}}
+                {{#if related}}
+                    {{> "related-posts-section" posts=related}}
+                {{/if}}
+            {{/get}}
+        {{/if}}
+    {{/get}}
+{{/if}}
+{{/post}}

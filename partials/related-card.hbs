@@ -1,0 +1,21 @@
+{{!-- Minimal card for “You might also like…” (image + title only). --}}
+<article class="gc-related-card">
+    {{#if feature_image}}
+    <a class="gc-related-card__image-link" href="{{url}}" aria-label="{{title}}">
+        <img class="gc-related-card__image"
+            srcset="{{img_url feature_image size="s"}} 300w,
+                    {{img_url feature_image size="m"}} 600w,
+                    {{img_url feature_image size="l"}} 1000w"
+            sizes="(max-width: 640px) 100vw, 360px"
+            src="{{img_url feature_image size="m"}}"
+            alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+            loading="lazy">
+    </a>
+    {{else}}
+    <a class="gc-related-card__image-link gc-related-card__image-link--empty" href="{{url}}" aria-hidden="true" tabindex="-1"></a>
+    {{/if}}
+
+    <h3 class="gc-related-card__title">
+        <a href="{{url}}">{{title}}</a>
+    </h3>
+</article>
