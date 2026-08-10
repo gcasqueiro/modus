@@ -13,9 +13,13 @@
     {{/if}}
 
     <header class="gc-post-header gc-content-column{{#if feature_image}} gc-post-header--below{{/if}}">
-        {{#primary_tag}}
-        <a class="gc-post-header__tag" href="{{url}}">{{name}}</a>
-        {{/primary_tag}}
+        {{#if tags}}
+        <div class="gc-post-header__tags">
+            {{#foreach tags}}
+            <a class="gc-tag-pill" href="{{url}}">{{name}}</a>
+            {{/foreach}}
+        </div>
+        {{/if}}
         <h1 class="gc-post-header__title">{{title}}</h1>
         <div class="gc-post-byline">
             {{#primary_author}}
