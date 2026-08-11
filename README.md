@@ -6,21 +6,21 @@
 
 ## Features
 
-- **Light and dark mode** — reader choice is saved in the browser and applied before first paint; falls back to the system preference
-- **Separate light and dark homepage heroes** — optional second image that swaps automatically with the colour scheme
-- **Fullscreen homepage hero** — full-viewport cover with scroll-zoom and an animated chevron to scroll down
-- **Transparent site-wide navbar** — sits over heroes and feature images; becomes solid after scroll; hamburger menu on mobile
-- **Independent light and dark accent colours** — set in Design settings; used for buttons, links, tags, and the Portal subscribe button
-- **Post feature images with scroll-zoom** — full-width band under the navbar (shorter than the homepage hero on desktop; natural height on mobile)
-- **Equal-height post cards** — clamped titles and excerpts so meta lines align in the grid
-- **All tags as accent pills** — shown on cards and at the top and bottom of posts
-- **Related posts** — “You might also like…” with minimal image + title cards, based on shared tags (then other posts)
-- **Featured + Latest on the homepage** — featured posts in their own section above the main feed
-- **Load more** — appends the next page of posts without a full reload (normal link if JavaScript is off)
-- **Full-width video embeds** — YouTube and similar cards fill the content column at 16:9
-- **Members subscribe form** — end-of-post signup when Members is enabled
-- **Social icons** — header and footer show only networks configured in Ghost
-- **No build step** — plain HTML/CSS/JS; edit and upload
+- **Light and dark mode** - reader choice is saved in the browser and applied before first paint; falls back to the system preference
+- **Separate light and dark homepage heroes** - optional second image that swaps automatically with the colour scheme
+- **Fullscreen homepage hero** - full-viewport cover with scroll-zoom and an animated chevron to scroll down
+- **Transparent site-wide navbar** - sits over heroes and feature images; becomes solid after scroll; hamburger menu on mobile
+- **Independent light and dark accent colours** - set in Design settings; used for buttons, links, tags, and the Portal subscribe button
+- **Post feature images with scroll-zoom** - full-width band under the navbar (shorter than the homepage hero on desktop; natural height on mobile)
+- **Equal-height post cards** - clamped titles and excerpts so meta lines align in the grid
+- **All tags as accent pills** - shown on cards and at the top and bottom of posts
+- **Related posts** - “You might also like…” with minimal image + title cards, based on shared tags (then other posts)
+- **Featured + Latest on the homepage** - featured posts in their own section above the main feed
+- **Load more** - appends the next page of posts without a full reload (normal link if JavaScript is off)
+- **Full-width video embeds** - YouTube and similar cards fill the content column at 16:9
+- **Members subscribe form** - end-of-post signup when Members is enabled
+- **Social icons** - header and footer show only networks configured in Ghost
+- **No build step** - plain HTML/CSS/JS; edit and upload
 
 ---
 
