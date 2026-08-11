@@ -81,6 +81,14 @@ npx gscan .
 
 ---
 
+## A note on scope
+
+Modus was built for my own site. You’re free to **clone**, **fork**, and change it however you like under the MIT license.
+
+I don’t plan to add features on request, take custom change requests, or maintain support for other people’s setups — unless I decide to for my own use. If you need something different, fork the repo and adapt it.
+
+---
+
 ## License
 
 [MIT](LICENSE) · [G. Casqueiro](https://gcasqueiro.com)
