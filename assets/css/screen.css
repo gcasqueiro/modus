@@ -635,6 +635,24 @@ hr {
         color: var(--gc-text);
     }
 
+    /*
+        Over-hero header forces white nav text. The dropdown uses --gc-bg
+        (white in light mode), so those rules make links invisible. When the
+        menu is open, keep panel copy on the theme colours.
+    */
+    .has-top-image.is-head-transparent .gc-header:not(.is-scrolled).is-nav-open .gc-nav__link {
+        color: var(--gc-text-muted);
+    }
+
+    .has-top-image.is-head-transparent .gc-header:not(.is-scrolled).is-nav-open .gc-nav__link:hover {
+        color: var(--gc-text);
+        background: var(--gc-bg-subtle);
+    }
+
+    .has-top-image.is-head-transparent .gc-header:not(.is-scrolled).is-nav-open .gc-nav__item--current .gc-nav__link {
+        color: var(--gc-text);
+    }
+
     .gc-header .gc-socials {
         display: none;
     }
