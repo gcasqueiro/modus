@@ -15,7 +15,3 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
-
-# Local notes / blog drafts (not for the public repo)
-BLOG-POST-*.md
-*-blog-draft.md
