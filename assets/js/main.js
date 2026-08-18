@@ -17,6 +17,7 @@
         } catch (e) { /* private mode / blocked storage */ }
         syncToggle(theme);
         stylePortalAccent();
+        syncCommentsTheme(theme);
     }
 
     function syncToggle(theme) {
@@ -44,8 +45,10 @@
             var stored;
             try { stored = localStorage.getItem(STORAGE_KEY); } catch (err) { stored = null; }
             if (stored !== 'dark' && stored !== 'light') {
-                root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+                var next = e.matches ? 'dark' : 'light';
+                root.setAttribute('data-theme', next);
                 syncToggle(currentTheme());
+                syncCommentsTheme(next);
             }
         };
         if (mq.addEventListener) {
@@ -225,6 +228,45 @@
         stylePortalAccent();
     }
 
+    /* Comments-ui reads data-color-scheme on its script tag (and watches it). */
+    function syncCommentsTheme(theme) {
+        if (theme !== 'dark' && theme !== 'light') return;
+
+        var scripts = document.querySelectorAll(
+            '.gc-comments script[data-color-scheme], .gc-comments script[data-ghost-comments]'
+        );
+        for (var i = 0; i < scripts.length; i++) {
+            if (scripts[i].getAttribute('data-color-scheme') !== theme) {
+                scripts[i].setAttribute('data-color-scheme', theme);
+            }
+        }
+
+        var bg = getComputedStyle(root).getPropertyValue('--gc-bg').trim()
+            || (theme === 'dark' ? '#0f1115' : '#ffffff');
+        var frames = document.querySelectorAll('iframe[title="comments-frame"]');
+        for (var j = 0; j < frames.length; j++) {
+            try {
+                var doc = frames[j].contentDocument;
+                if (!doc || !doc.documentElement) continue;
+                doc.documentElement.style.background = bg;
+                doc.documentElement.style.colorScheme = theme;
+                if (doc.body) {
+                    doc.body.style.background = bg;
+                    doc.body.style.colorScheme = theme;
+                }
+            } catch (e) { /* ignore */ }
+        }
+    }
+
+    function initCommentsTheme() {
+        syncCommentsTheme(currentTheme());
+        var wrap = document.querySelector('.gc-comments');
+        if (!wrap || !window.MutationObserver) return;
+        new MutationObserver(function () {
+            syncCommentsTheme(currentTheme());
+        }).observe(wrap, { childList: true, subtree: true });
+    }
+
     /* Mobile hamburger menu */
     function initMobileNav() {
         var header = document.querySelector('.gc-header');
@@ -271,5 +313,6 @@
         initTransparentHeader();
         initMobileNav();
         initPortalAccent();
+        initCommentsTheme();
     });
 })();

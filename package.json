@@ -1,7 +1,7 @@
 {
   "name": "modus",
   "description": "Ghost 6 theme built for my own website. Light/dark modes, dual heroes, transparent nav, dual accents, related posts. Inspired by Edition and Joelma.",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "engines": {
     "ghost": ">=6.0.0"
   },

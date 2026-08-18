@@ -1623,17 +1623,23 @@ hr {
     padding-top: 2.5rem;
     border-top: 1px solid var(--gc-border);
     color: var(--gc-text);
+    background: var(--gc-bg);
+}
+
+/*
+    Comments-ui sizes this iframe itself. Do not force height:auto.
+    color-scheme on the iframe (not <html>) sets the iframe canvas
+    so dark-mode white text is not painted on a white rectangle.
+*/
+.gc-comments iframe[title="comments-frame"] {
+    width: 100%;
+    max-width: 100%;
+    background: var(--gc-bg) !important;
     color-scheme: light;
 }
 
-[data-theme="dark"] .gc-comments {
+[data-theme="dark"] .gc-comments iframe[title="comments-frame"] {
     color-scheme: dark;
-}
-
-.gc-comments iframe {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
 }
 
 /* Subscribe already has a top rule; keep one divider between the two blocks */

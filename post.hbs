@@ -147,6 +147,18 @@
 {{#if comments}}
 <section class="gc-comments gc-content-column" aria-label="Member discussion">
     {{comments title="Member discussion" count=true mode="auto"}}
+    {{!-- Pin color-scheme to the page theme before comments-ui reads the script tag. --}}
+    <script>
+        (function () {
+            var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            var section = document.currentScript && document.currentScript.parentElement;
+            if (!section) return;
+            var tags = section.querySelectorAll('script[data-color-scheme], script[data-ghost-comments]');
+            for (var i = 0; i < tags.length; i++) {
+                tags[i].setAttribute('data-color-scheme', theme);
+            }
+        })();
+    </script>
 </section>
 {{/if}}
 
