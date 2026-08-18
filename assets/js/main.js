@@ -228,7 +228,29 @@
         stylePortalAccent();
     }
 
-    /* Comments-ui reads data-color-scheme; keep it in sync but paint the iframe now. */
+    function commentsAccent(theme) {
+        var accents = window.__gcPortalAccents || {};
+        var fromSetting = accents[theme];
+        if (fromSetting && fromSetting.charAt(0) === '#') return fromSetting;
+        return getComputedStyle(root).getPropertyValue('--gc-accent').trim()
+            || (theme === 'dark' ? '#5b8bff' : '#2f6df6');
+    }
+
+    function commentsCss(theme, bg, accent) {
+        var text = theme === 'dark' ? 'rgba(255,255,255,0.88)' : '#1a1d21';
+        var muted = theme === 'dark' ? 'rgba(255,255,255,0.55)' : '#565b63';
+        return [
+            'html,body,.ghost-display{background:' + bg + '!important;color-scheme:' + theme + '!important;}',
+            '.ghost-display{color:' + text + ';}',
+            '.ghost-display h1,.ghost-display h2,.ghost-display h3{color:' + text + '!important;}',
+            '.ghost-display p,.ghost-display span,.ghost-display label{color:' + muted + '!important;}',
+            '.ghost-display [data-testid="signin-button"],',
+            '.ghost-display button[data-testid="signin-button"]{color:' + accent + '!important;}',
+            '.ghost-display [data-testid="signup-button"]{color:#fff!important;}',
+            '.ghost-display a{color:' + accent + '!important;}'
+        ].join('');
+    }
+
     function pinCommentsScriptScheme(theme) {
         var scripts = document.querySelectorAll(
             '.gc-comments script[data-color-scheme], .gc-comments script[data-ghost-comments]'
@@ -245,6 +267,7 @@
 
         var bg = getComputedStyle(root).getPropertyValue('--gc-bg').trim()
             || (theme === 'dark' ? '#0f1115' : '#ffffff');
+        var accent = commentsAccent(theme);
         var wrap = document.querySelector('.gc-comments');
         var frames = document.querySelectorAll('iframe[title="comments-frame"]');
         var painted = false;
@@ -252,19 +275,18 @@
         for (var i = 0; i < frames.length; i++) {
             var frame = frames[i];
             frame.style.background = bg;
-            frame.style.colorScheme = theme;
 
             try {
                 var doc = frame.contentDocument;
                 if (!doc || !doc.documentElement) continue;
 
-                var style = doc.getElementById('gc-comments-theme');
-                if (!style) {
-                    style = doc.createElement('style');
-                    style.id = 'gc-comments-theme';
-                    (doc.head || doc.documentElement).appendChild(style);
+                if (theme === 'dark') {
+                    doc.documentElement.classList.add('dark');
+                    if (doc.body) doc.body.classList.add('dark');
+                } else {
+                    doc.documentElement.classList.remove('dark');
+                    if (doc.body) doc.body.classList.remove('dark');
                 }
-                style.textContent = 'html,body{background:' + bg + '!important;color-scheme:' + theme + '!important;}';
 
                 doc.documentElement.style.background = bg;
                 doc.documentElement.style.colorScheme = theme;
@@ -272,6 +294,14 @@
                     doc.body.style.background = bg;
                     doc.body.style.colorScheme = theme;
                 }
+
+                var style = doc.getElementById('gc-comments-theme');
+                if (!style) {
+                    style = doc.createElement('style');
+                    style.id = 'gc-comments-theme';
+                    (doc.head || doc.documentElement).appendChild(style);
+                }
+                style.textContent = commentsCss(theme, bg, accent);
 
                 var displays = doc.querySelectorAll('.ghost-display');
                 for (var d = 0; d < displays.length; d++) {
@@ -281,7 +311,20 @@
                         displays[d].classList.remove('dark');
                     }
                     displays[d].style.background = bg;
+                    displays[d].style.setProperty('--gh-accent-color', accent);
                     painted = true;
+                }
+
+                var signins = doc.querySelectorAll('[data-testid="signin-button"]');
+                for (var s = 0; s < signins.length; s++) {
+                    signins[s].style.setProperty('color', accent, 'important');
+                }
+
+                if (window.MutationObserver && !doc.documentElement.getAttribute('data-gc-watch')) {
+                    doc.documentElement.setAttribute('data-gc-watch', '1');
+                    new MutationObserver(function () {
+                        paintCommentsFrame(currentTheme());
+                    }).observe(doc.documentElement, { childList: true, subtree: true });
                 }
             } catch (e) { /* ignore */ }
         }
@@ -313,17 +356,6 @@
 
         if (!window.MutationObserver) return;
         new MutationObserver(function () {
-            var frame = wrap.querySelector('iframe[title="comments-frame"]');
-            if (frame) {
-                try {
-                    var doc = frame.contentDocument;
-                    if (!doc || !doc.querySelector('.ghost-display')) {
-                        wrap.classList.remove('is-ready');
-                    }
-                } catch (e) {
-                    wrap.classList.remove('is-ready');
-                }
-            }
             paintCommentsFrame(currentTheme());
         }).observe(wrap, { childList: true, subtree: true });
     }
