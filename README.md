@@ -19,7 +19,7 @@
 - **Load more** - appends the next page of posts without a full reload (normal link if JavaScript is off)
 - **Full-width video embeds** - YouTube and similar cards fill the content column at 16:9
 - **Members subscribe form** - end-of-post signup when Members is enabled
-- **Member discussion** - native Ghost comments under the subscribe form when commenting is enabled
+- **Member discussion** - native Ghost comments at the end of posts (below the subscribe form), with comment count; follows light/dark mode
 - **Social icons** - header and footer show only networks configured in Ghost
 - **No build step** - plain HTML/CSS/JS; edit and upload
 
@@ -58,7 +58,7 @@ Configured under **Settings → Design** (no code required).
 | Footer text | Custom footer line |
 | Subscribe heading / subtitle | End-of-post members form copy |
 
-Publication cover is used as the homepage hero when no light hero is set. Logo appears when navbar brand is “Logo image”. Fonts follow Ghost’s site font settings when set.
+Publication cover is used as the homepage hero when no light hero is set. Logo appears when navbar brand is “Logo image”. Fonts follow Ghost’s site font settings when set. Member discussion appears when commenting is enabled under **Settings → Membership → Access**.
 
 ---
 
