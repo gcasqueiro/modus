@@ -228,10 +228,8 @@
         stylePortalAccent();
     }
 
-    /* Comments-ui reads data-color-scheme on its script tag (and watches it). */
-    function syncCommentsTheme(theme) {
-        if (theme !== 'dark' && theme !== 'light') return;
-
+    /* Comments-ui reads data-color-scheme; keep it in sync but paint the iframe now. */
+    function pinCommentsScriptScheme(theme) {
         var scripts = document.querySelectorAll(
             '.gc-comments script[data-color-scheme], .gc-comments script[data-ghost-comments]'
         );
@@ -240,30 +238,93 @@
                 scripts[i].setAttribute('data-color-scheme', theme);
             }
         }
+    }
+
+    function paintCommentsFrame(theme) {
+        if (theme !== 'dark' && theme !== 'light') return false;
 
         var bg = getComputedStyle(root).getPropertyValue('--gc-bg').trim()
             || (theme === 'dark' ? '#0f1115' : '#ffffff');
+        var wrap = document.querySelector('.gc-comments');
         var frames = document.querySelectorAll('iframe[title="comments-frame"]');
-        for (var j = 0; j < frames.length; j++) {
+        var painted = false;
+
+        for (var i = 0; i < frames.length; i++) {
+            var frame = frames[i];
+            frame.style.background = bg;
+            frame.style.colorScheme = theme;
+
             try {
-                var doc = frames[j].contentDocument;
+                var doc = frame.contentDocument;
                 if (!doc || !doc.documentElement) continue;
+
+                var style = doc.getElementById('gc-comments-theme');
+                if (!style) {
+                    style = doc.createElement('style');
+                    style.id = 'gc-comments-theme';
+                    (doc.head || doc.documentElement).appendChild(style);
+                }
+                style.textContent = 'html,body{background:' + bg + '!important;color-scheme:' + theme + '!important;}';
+
                 doc.documentElement.style.background = bg;
                 doc.documentElement.style.colorScheme = theme;
                 if (doc.body) {
                     doc.body.style.background = bg;
                     doc.body.style.colorScheme = theme;
                 }
+
+                var displays = doc.querySelectorAll('.ghost-display');
+                for (var d = 0; d < displays.length; d++) {
+                    if (theme === 'dark') {
+                        displays[d].classList.add('dark');
+                    } else {
+                        displays[d].classList.remove('dark');
+                    }
+                    displays[d].style.background = bg;
+                    painted = true;
+                }
             } catch (e) { /* ignore */ }
         }
+
+        if (wrap && painted) {
+            wrap.classList.add('is-ready');
+        }
+        return painted;
+    }
+
+    function syncCommentsTheme(theme) {
+        if (theme !== 'dark' && theme !== 'light') return;
+        paintCommentsFrame(theme);
+        pinCommentsScriptScheme(theme);
     }
 
     function initCommentsTheme() {
-        syncCommentsTheme(currentTheme());
         var wrap = document.querySelector('.gc-comments');
-        if (!wrap || !window.MutationObserver) return;
+        if (!wrap) return;
+
+        syncCommentsTheme(currentTheme());
+
+        var frames = wrap.querySelectorAll('iframe[title="comments-frame"]');
+        for (var i = 0; i < frames.length; i++) {
+            frames[i].addEventListener('load', function () {
+                paintCommentsFrame(currentTheme());
+            });
+        }
+
+        if (!window.MutationObserver) return;
         new MutationObserver(function () {
-            syncCommentsTheme(currentTheme());
+            var frame = wrap.querySelector('iframe[title="comments-frame"]');
+            if (frame) {
+                try {
+                    var doc = frame.contentDocument;
+                    if (!doc || !doc.querySelector('.ghost-display')) {
+                        wrap.classList.remove('is-ready');
+                    }
+                } catch (e) {
+                    wrap.classList.remove('is-ready');
+                }
+            }
+            paintCommentsFrame(currentTheme());
         }).observe(wrap, { childList: true, subtree: true });
     }
 

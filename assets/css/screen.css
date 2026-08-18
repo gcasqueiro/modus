@@ -1627,19 +1627,20 @@ hr {
 }
 
 /*
-    Comments-ui sizes this iframe itself. Do not force height:auto.
-    color-scheme on the iframe (not <html>) sets the iframe canvas
-    so dark-mode white text is not painted on a white rectangle.
+    Hide the iframe until JS has painted it to the page theme.
+    The section already uses --gc-bg, so refresh does not flash white.
+    Do not set color-scheme here — that updates the canvas before the
+    comments UI, which is what made text vanish for a beat.
 */
 .gc-comments iframe[title="comments-frame"] {
     width: 100%;
     max-width: 100%;
     background: var(--gc-bg) !important;
-    color-scheme: light;
+    opacity: 0;
 }
 
-[data-theme="dark"] .gc-comments iframe[title="comments-frame"] {
-    color-scheme: dark;
+.gc-comments.is-ready iframe[title="comments-frame"] {
+    opacity: 1;
 }
 
 /* Subscribe already has a top rule; keep one divider between the two blocks */
