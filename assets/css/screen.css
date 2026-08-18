@@ -1626,21 +1626,10 @@ hr {
     background: var(--gc-bg);
 }
 
-/*
-    Hide the iframe until JS has painted it to the page theme.
-    The section already uses --gc-bg, so refresh does not flash white.
-    Do not set color-scheme here — that updates the canvas before the
-    comments UI, which is what made text vanish for a beat.
-*/
 .gc-comments iframe[title="comments-frame"] {
     width: 100%;
     max-width: 100%;
     background: var(--gc-bg) !important;
-    opacity: 0;
-}
-
-.gc-comments.is-ready iframe[title="comments-frame"] {
-    opacity: 1;
 }
 
 /* Subscribe already has a top rule; keep one divider between the two blocks */

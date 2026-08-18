@@ -241,12 +241,10 @@
         var muted = theme === 'dark' ? 'rgba(255,255,255,0.55)' : '#565b63';
         return [
             'html,body,.ghost-display{background:' + bg + '!important;color-scheme:' + theme + '!important;}',
-            '.ghost-display{color:' + text + ';}',
             '.ghost-display h1,.ghost-display h2,.ghost-display h3{color:' + text + '!important;}',
             '.ghost-display p,.ghost-display span,.ghost-display label{color:' + muted + '!important;}',
-            '.ghost-display [data-testid="signin-button"],',
-            '.ghost-display button[data-testid="signin-button"]{color:' + accent + '!important;}',
-            '.ghost-display [data-testid="signup-button"]{color:#fff!important;}',
+            '[data-testid="signin-button"]{color:' + accent + '!important;}',
+            '[data-testid="signup-button"]{color:#fff!important;}',
             '.ghost-display a{color:' + accent + '!important;}'
         ].join('');
     }
@@ -262,15 +260,15 @@
         }
     }
 
+    /* Write colours into the comments iframe. Do not observe its DOM — that
+       re-enters this function on every React render and freezes the widget. */
     function paintCommentsFrame(theme) {
-        if (theme !== 'dark' && theme !== 'light') return false;
+        if (theme !== 'dark' && theme !== 'light') return;
 
         var bg = getComputedStyle(root).getPropertyValue('--gc-bg').trim()
             || (theme === 'dark' ? '#0f1115' : '#ffffff');
         var accent = commentsAccent(theme);
-        var wrap = document.querySelector('.gc-comments');
         var frames = document.querySelectorAll('iframe[title="comments-frame"]');
-        var painted = false;
 
         for (var i = 0; i < frames.length; i++) {
             var frame = frames[i];
@@ -279,21 +277,6 @@
             try {
                 var doc = frame.contentDocument;
                 if (!doc || !doc.documentElement) continue;
-
-                if (theme === 'dark') {
-                    doc.documentElement.classList.add('dark');
-                    if (doc.body) doc.body.classList.add('dark');
-                } else {
-                    doc.documentElement.classList.remove('dark');
-                    if (doc.body) doc.body.classList.remove('dark');
-                }
-
-                doc.documentElement.style.background = bg;
-                doc.documentElement.style.colorScheme = theme;
-                if (doc.body) {
-                    doc.body.style.background = bg;
-                    doc.body.style.colorScheme = theme;
-                }
 
                 var style = doc.getElementById('gc-comments-theme');
                 if (!style) {
@@ -310,54 +293,28 @@
                     } else {
                         displays[d].classList.remove('dark');
                     }
-                    displays[d].style.background = bg;
                     displays[d].style.setProperty('--gh-accent-color', accent);
-                    painted = true;
-                }
-
-                var signins = doc.querySelectorAll('[data-testid="signin-button"]');
-                for (var s = 0; s < signins.length; s++) {
-                    signins[s].style.setProperty('color', accent, 'important');
-                }
-
-                if (window.MutationObserver && !doc.documentElement.getAttribute('data-gc-watch')) {
-                    doc.documentElement.setAttribute('data-gc-watch', '1');
-                    new MutationObserver(function () {
-                        paintCommentsFrame(currentTheme());
-                    }).observe(doc.documentElement, { childList: true, subtree: true });
                 }
             } catch (e) { /* ignore */ }
         }
-
-        if (wrap && painted) {
-            wrap.classList.add('is-ready');
-        }
-        return painted;
     }
 
     function syncCommentsTheme(theme) {
         if (theme !== 'dark' && theme !== 'light') return;
-        paintCommentsFrame(theme);
         pinCommentsScriptScheme(theme);
+        paintCommentsFrame(theme);
     }
 
     function initCommentsTheme() {
-        var wrap = document.querySelector('.gc-comments');
-        if (!wrap) return;
+        if (!document.querySelector('.gc-comments')) return;
 
         syncCommentsTheme(currentTheme());
 
-        var frames = wrap.querySelectorAll('iframe[title="comments-frame"]');
-        for (var i = 0; i < frames.length; i++) {
-            frames[i].addEventListener('load', function () {
-                paintCommentsFrame(currentTheme());
-            });
-        }
-
-        if (!window.MutationObserver) return;
-        new MutationObserver(function () {
+        var n = 0;
+        var timer = window.setInterval(function () {
             paintCommentsFrame(currentTheme());
-        }).observe(wrap, { childList: true, subtree: true });
+            if (++n > 20) window.clearInterval(timer);
+        }, 250);
     }
 
     /* Mobile hamburger menu */
