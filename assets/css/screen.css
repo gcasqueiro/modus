@@ -1615,6 +1615,30 @@ hr {
     color: var(--gc-text-faint);
 }
 
+/* Native Ghost comments — Member discussion (iframe UI from {{comments}}) */
+.gc-comments {
+    margin-block: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--gc-border);
+    color: var(--gc-text);
+    color-scheme: light;
+}
+
+[data-theme="dark"] .gc-comments {
+    color-scheme: dark;
+}
+
+.gc-comments iframe {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Subscribe already has a top rule; keep one divider between the two blocks */
+.gc-subscribe-cta + .gc-comments {
+    margin-top: 0;
+}
+
 /* --------------------------------------------------------------------------
    20. Responsive (content + heroes + embeds)
    -------------------------------------------------------------------------- */
@@ -1707,6 +1731,11 @@ hr {
         width: 100%;
         padding: 12px 16px;
         border-radius: var(--gc-radius);
+    }
+
+    .gc-comments {
+        margin-block: 2.5rem;
+        padding-top: 2rem;
     }
 
     .gc-footer {

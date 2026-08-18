@@ -129,8 +129,6 @@
     {{/get}}
 {{/if}}
 
-{{/post}}
-
 {{#if @site.members_enabled}}
 {{#unless @member}}
 <aside class="gc-subscribe-cta gc-content-column">
@@ -144,3 +142,12 @@
 </aside>
 {{/unless}}
 {{/if}}
+
+{{!-- Ghost native comments: only render when enabled in Admin and the visitor can access the post. --}}
+{{#if comments}}
+<section class="gc-comments gc-content-column" aria-label="Member discussion">
+    {{comments title="Member discussion" count=true mode="auto"}}
+</section>
+{{/if}}
+
+{{/post}}

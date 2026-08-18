@@ -19,6 +19,7 @@
 - **Load more** - appends the next page of posts without a full reload (normal link if JavaScript is off)
 - **Full-width video embeds** - YouTube and similar cards fill the content column at 16:9
 - **Members subscribe form** - end-of-post signup when Members is enabled
+- **Member discussion** - native Ghost comments under the subscribe form when commenting is enabled
 - **Social icons** - header and footer show only networks configured in Ghost
 - **No build step** - plain HTML/CSS/JS; edit and upload
 
