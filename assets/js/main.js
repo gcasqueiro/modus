@@ -12,7 +12,6 @@
     function applyTheme(theme) {
         if (theme !== 'dark' && theme !== 'light') return;
         root.setAttribute('data-theme', theme);
-        root.style.colorScheme = theme;
         try {
             localStorage.setItem(STORAGE_KEY, theme);
         } catch (e) { /* private mode / blocked storage */ }
@@ -45,9 +44,7 @@
             var stored;
             try { stored = localStorage.getItem(STORAGE_KEY); } catch (err) { stored = null; }
             if (stored !== 'dark' && stored !== 'light') {
-                var next = e.matches ? 'dark' : 'light';
-                root.setAttribute('data-theme', next);
-                root.style.colorScheme = next;
+                root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
                 syncToggle(currentTheme());
             }
         };

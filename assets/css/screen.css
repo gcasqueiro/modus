@@ -99,6 +99,8 @@ iframe[data-testid="portal-trigger-frame"],
 iframe.gh-portal-triggerbtn-iframe {
     opacity: 0 !important;
     pointer-events: none !important;
+    background: transparent !important;
+    color-scheme: normal !important;
     transition: opacity 0.12s ease !important;
 }
 

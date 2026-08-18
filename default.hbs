@@ -11,7 +11,6 @@
                     ? stored
                     : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
                 document.documentElement.setAttribute('data-theme', theme);
-                document.documentElement.style.colorScheme = theme;
             } catch (e) {
                 document.documentElement.setAttribute('data-theme', 'light');
             }
@@ -75,6 +74,8 @@
                         if (!doc || !doc.documentElement) continue;
 
                         doc.documentElement.style.setProperty('--brandcolor', color);
+                        doc.documentElement.style.background = 'transparent';
+                        if (doc.body) doc.body.style.background = 'transparent';
 
                         var btn = doc.querySelector('.gh-portal-triggerbtn-container');
                         if (btn) {
